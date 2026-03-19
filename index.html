@@ -420,20 +420,44 @@
             border-color: var(--color-secondary);
         }
 
-        .portfolio-img {
-            width: 100%;
-            height: 220px;
-            object-fit: cover;
-            border-bottom: 1px solid var(--color-border);
-            transition: transform 0.5s ease;
-        }
-
-        .portfolio-card:hover .portfolio-img {
-            transform: scale(1.05); /* Pequeño efecto de zoom al pasar el ratón */
-        }
-
         .portfolio-img-container {
-            overflow: hidden; /* Evita que el zoom se salga de la tarjeta */
+            height: 200px;
+            background: linear-gradient(135deg, rgba(10, 74, 125, 0.06) 0%, rgba(0, 212, 255, 0.08) 100%);
+            border-bottom: 1px solid var(--color-border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 0.75rem;
+            transition: background 0.3s ease;
+        }
+
+        .portfolio-card:hover .portfolio-img-container {
+            background: linear-gradient(135deg, rgba(10, 74, 125, 0.1) 0%, rgba(0, 212, 255, 0.13) 100%);
+        }
+
+        .portfolio-preview-icon {
+            font-size: 3rem;
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            transition: transform 0.3s ease;
+        }
+
+        .portfolio-card:hover .portfolio-preview-icon {
+            transform: scale(1.15);
+        }
+
+        .portfolio-preview-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--color-secondary);
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
         }
 
         .portfolio-content {
@@ -812,6 +836,192 @@
             }
         }
 
+        /* PORTFOLIO MODAL */
+        .portfolio-card {
+            cursor: pointer;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            z-index: 2000;
+            background: rgba(13, 27, 42, 0.85);
+            backdrop-filter: blur(6px);
+            align-items: center;
+            justify-content: center;
+            padding: 1.5rem;
+        }
+
+        .modal-overlay.active {
+            display: flex;
+        }
+
+        .modal {
+            background: var(--color-white);
+            border-radius: 16px;
+            max-width: 860px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            box-shadow: 0 24px 64px rgba(10, 74, 125, 0.3);
+            animation: modalIn 0.3s ease-out;
+            position: relative;
+        }
+
+        @keyframes modalIn {
+            from { opacity: 0; transform: scale(0.95) translateY(20px); }
+            to { opacity: 1; transform: scale(1) translateY(0); }
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--color-light);
+            border: 1px solid var(--color-border);
+            border-radius: 50%;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            color: var(--color-text);
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: var(--color-secondary);
+            color: white;
+            border-color: var(--color-secondary);
+        }
+
+        .modal-gallery {
+            background: var(--color-dark);
+            border-radius: 16px 16px 0 0;
+            overflow: hidden;
+            height: 380px;
+        }
+
+        .modal-gallery figure {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+            display: none;
+            flex-direction: column;
+        }
+
+        .modal-gallery figure.active {
+            display: flex;
+        }
+
+        .modal-gallery figure img {
+            width: 100%;
+            flex: 1;
+            object-fit: cover;
+            min-height: 0;
+        }
+
+        .modal-gallery figcaption {
+            background: rgba(13, 27, 42, 0.82);
+            color: rgba(255, 255, 255, 0.88);
+            font-size: 0.82rem;
+            padding: 0.5rem 1rem;
+            text-align: center;
+            letter-spacing: 0.01em;
+            line-height: 1.4;
+        }
+
+        .gallery-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+            padding: 0.75rem 1.5rem;
+            background: var(--color-light);
+            border-bottom: 1px solid var(--color-border);
+        }
+
+        .gallery-nav {
+            background: var(--color-white);
+            border: 1px solid var(--color-border);
+            color: var(--color-primary);
+            border-radius: 50%;
+            width: 34px;
+            height: 34px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.1rem;
+            font-weight: 700;
+            transition: all 0.2s ease;
+            box-shadow: var(--shadow-sm);
+            flex-shrink: 0;
+        }
+
+        .gallery-nav:hover {
+            background: var(--color-secondary);
+            border-color: var(--color-secondary);
+            color: white;
+        }
+
+        .gallery-dots {
+            display: flex;
+            gap: 6px;
+            align-items: center;
+        }
+
+        .gallery-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: var(--color-border);
+            border: 1px solid #c8dff0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .gallery-dot.active {
+            background: var(--color-secondary);
+            border-color: var(--color-secondary);
+            transform: scale(1.2);
+        }
+
+        .gallery-counter {
+            font-size: 0.78rem;
+            font-weight: 600;
+            color: var(--color-secondary);
+            min-width: 36px;
+            text-align: center;
+        }
+
+        .modal-body {
+            padding: 2rem 2.5rem 2.5rem;
+        }
+
+        .modal-body h3 {
+            font-family: 'Syne', sans-serif;
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--color-dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .modal-body p {
+            color: #4a6b8a;
+            line-height: 1.7;
+            font-size: 0.95rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body .portfolio-tags {
+            margin-bottom: 0;
+        }
+
         /* SCROLL ANIMATION */
         .fade-in {
             opacity: 0;
@@ -840,7 +1050,7 @@
                 <li><a href="#tech">Tecnología</a></li>
                 <li><a href="#contact">Contacto</a></li>
             </ul>
-            <a href="mailto:crystallinecode.team@gmail.com" class="cta-button" style="display: inline-block;">Contáctanos</a>
+            <a href="/cdn-cgi/l/email-protection#117263686265707d7d787f74727e75743f6574707c51767c70787d3f727e7c" class="cta-button" style="display: inline-block;">Contáctanos</a>
         </nav>
     </header>
 
@@ -917,9 +1127,14 @@
 
         <div class="portfolio-grid">
             
-            <div class="portfolio-card">
+            <div class="portfolio-card" 
+                 data-modal="modal-proyecto1"
+                 title="Ver proyecto">
                 <div class="portfolio-img-container">
-                    <img src="img/proyecto1.png" alt="Plataforma de evaluación Docente" class="portfolio-img">
+                    <i class="fa-solid fa-display portfolio-preview-icon"></i>
+                    <span class="portfolio-preview-label">
+                        <i class="fa-solid fa-expand"></i> Ver capturas
+                    </span>
                 </div>
                 <div class="portfolio-content">
                     <h3>Plataforma de evaluación Docente</h3>
@@ -1053,7 +1268,7 @@
     <section class="cta-section">
         <h2>¿Listo para tu próximo proyecto?</h2>
         <p>Contacta con nosotros hoy y transforma tu idea en realidad con código de calidad profesional</p>
-        <a href="mailto:crystallinecode.team@gmail.com?subject=Consulta%20sobre%20nuevo%20proyecto" class="button-primary" style="display: inline-block; text-align: center;">Enviar Mensaje</a>
+        <a href="/cdn-cgi/l/email-protection#492a3b303a3d28252520272c2a262d2c673d2c2824092e24282025672a2624763a3c2b232c2a3d740a26273a3c253d286c7b793a262b3b2c6c7b79273c2c3f266c7b79393b26302c2a3d26" class="button-primary" style="display: inline-block; text-align: center;">Enviar Mensaje</a>
         <a href="https://wa.me/527491037407?text=Hola,%20me%20gustaría%20agendar%20una%20llamada%20para%20hablar%20de%20un%20proyecto" target="_blank" class="button-primary" style="background: transparent; border: 2px solid white; color: white; display: inline-block; text-align: center;">Agendar Llamada</a>
     </section>
 
@@ -1078,7 +1293,7 @@
             <div class="footer-section">
                 <h4>Contacto</h4>
                 <ul>
-                    <li><a href="mailto:crystallinecode.team@gmail.com">crystallinecode.team@gmail.com</a></li>
+                    <li><a href="/cdn-cgi/l/email-protection#c1a2b3b8b2b5a0adada8afa4a2aea5a4efb5a4a0ac81a6aca0a8adefa2aeac"><span class="__cf_email__" data-cfemail="1774656e6463767b7b7e797274787372396372767a57707a767e7b3974787a">[email&#160;protected]</span></a></li>
                     <li><a href="https://wa.me/527491037407?text=Hola,%20me%20interesa%20iniciar%20un%20proyecto%20con%20Crystalline%20Code" target="_blank" rel="noopener noreferrer">WhatsApp</a></li>
                 </ul>
             </div>
@@ -1089,7 +1304,138 @@
         </div>
     </footer>
 
-    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+    <!-- MODALES DE PROYECTOS -->
+    <div class="modal-overlay" id="modal-proyecto1">
+        <div class="modal">
+            <button class="modal-close" aria-label="Cerrar">&#x2715;</button>
+            <div class="modal-gallery">
+                <!-- Agrega más <figure class=""> con su <img> y <figcaption> para cada captura -->
+                <figure class="active">
+                    <img src="img/proyecto1.png" alt="Vista principal del sistema">
+                    <figcaption>Evaluaciones - Editor de evaluaciones</figcaption>
+                </figure>
+                <figure>
+                    <img src="img/proyecto1_2.png" alt="Panel de administración">
+                    <figcaption>Panel de administración — Gestión de evaluaciones y periodos</figcaption>
+                </figure>
+                <figure>
+                    <img src="img/proyecto1_3.png" alt="Panel de administración">
+                    <figcaption>Creador de evaluaciones — Creación de evaluaciones profesionales</figcaption>
+                </figure>
+                <figure>
+                    <img src="img/proyecto1_4.png" alt="Panel de administración">
+                    <figcaption>Reportes - Visualización de resultados por periodos y estadisticas</figcaption>
+                </figure>
+                <!-- Ejemplo de capturas adicionales:
+                <figure>
+                    <img src="img/proyecto1_2.png" alt="Panel de administración">
+                    <figcaption>Panel de administración — Gestión de usuarios y permisos</figcaption>
+                </figure>
+                <figure>
+                    <img src="img/proyecto1_3.png" alt="Reporte de evaluaciones">
+                    <figcaption>Reportes — Visualización de resultados por período</figcaption>
+                </figure>
+                -->
+            </div>
+            <div class="gallery-controls">
+                <button class="gallery-nav prev">&#8249;</button>
+                <div class="gallery-dots"></div>
+                <span class="gallery-counter"></span>
+                <button class="gallery-nav next">&#8250;</button>
+            </div>
+            <div class="modal-body">
+                <h3>Plataforma de evaluación Docente</h3>
+                <p>Desarrollo de un sistema integral para la gestión académica. Una aplicación de una sola página (SPA) rápida y reactiva.</p>
+                <div class="portfolio-tags">
+                    <span class="portfolio-tag">Django</span>
+                    <span class="portfolio-tag">React</span>
+                    <span class="portfolio-tag">PostgreSQL</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+        // MODAL: Inicializar dots y navegación por galería
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            const slides = overlay.querySelectorAll('.modal-gallery figure');
+            const controls = overlay.querySelector('.gallery-controls');
+            const dotsContainer = controls.querySelector('.gallery-dots');
+            const prevBtn = controls.querySelector('.gallery-nav.prev');
+            const nextBtn = controls.querySelector('.gallery-nav.next');
+            const counter = controls.querySelector('.gallery-counter');
+            let current = 0;
+
+            // Ocultar controles si solo hay 1 imagen
+            if (slides.length <= 1) {
+                prevBtn.style.visibility = 'hidden';
+                nextBtn.style.visibility = 'hidden';
+            }
+
+            // Crear dots
+            slides.forEach((_, i) => {
+                const dot = document.createElement('div');
+                dot.className = 'gallery-dot' + (i === 0 ? ' active' : '');
+                dot.addEventListener('click', () => goTo(i));
+                dotsContainer.appendChild(dot);
+            });
+
+            function updateCounter() {
+                counter.textContent = slides.length > 1 ? `${current + 1} / ${slides.length}` : '';
+            }
+
+            function goTo(index) {
+                slides[current].classList.remove('active');
+                dotsContainer.children[current].classList.remove('active');
+                current = (index + slides.length) % slides.length;
+                slides[current].classList.add('active');
+                dotsContainer.children[current].classList.add('active');
+                updateCounter();
+            }
+
+            prevBtn.addEventListener('click', () => goTo(current - 1));
+            nextBtn.addEventListener('click', () => goTo(current + 1));
+            updateCounter();
+        });
+
+        // MODAL: Abrir al clickear portfolio-card
+        document.querySelectorAll('.portfolio-card[data-modal]').forEach(card => {
+            card.addEventListener('click', () => {
+                const modalId = card.getAttribute('data-modal');
+                document.getElementById(modalId).classList.add('active');
+                document.body.style.overflow = 'hidden';
+            });
+        });
+
+        // MODAL: Cerrar con botón X
+        document.querySelectorAll('.modal-close').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                btn.closest('.modal-overlay').classList.remove('active');
+                document.body.style.overflow = '';
+            });
+        });
+
+        // MODAL: Cerrar al clickear el fondo
+        document.querySelectorAll('.modal-overlay').forEach(overlay => {
+            overlay.addEventListener('click', (e) => {
+                if (e.target === overlay) {
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+
+        // MODAL: Cerrar con Escape
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                document.querySelectorAll('.modal-overlay.active').forEach(m => {
+                    m.classList.remove('active');
+                });
+                document.body.style.overflow = '';
+            }
+        });
+
         // Smooth scroll behavior
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
             anchor.addEventListener('click', function (e) {
@@ -1129,14 +1475,14 @@
 
             if (scrollTop > 100) {
                 header.style.background = 'rgba(255, 255, 255, 0.95)';
-                header.style.boxShadow = '0 2px 8px rgba(10, 74, 125, 0.1)';
+                header.style.boxShadow = '0 2px 20px rgba(10, 74, 125, 0.1)';
             } else {
                 header.style.background = 'rgba(255, 255, 255, 0.7)';
                 header.style.boxShadow = 'none';
             }
-            
-            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-        });
 
-        // Button interactions
-        document.querySelectorAll('.button-primary, .button-secondary, .cta-but
+            lastScrollTop = scrollTop;
+        });
+    </script>
+</body>
+</html>
